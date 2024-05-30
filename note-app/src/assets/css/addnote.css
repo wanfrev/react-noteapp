@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   min-height: 100vh;
-  /* display: flex; */
+  display: flex;
   display: none;
   align-items: center;
   justify-content: center;
@@ -31,7 +31,7 @@
 
 .popupadd-header .close-btn i{
   font-size: 1.5rem;
-  color: #333;
+  color: #000;
   cursor: pointer;
 }
 
@@ -72,17 +72,9 @@
 }
 
 .popupadd-actions button.clear-btn{
-  background-color: gray;
-}
-
-.popupadd-actions button.clear-btn:hover{
-  background-color: rgb(158, 157, 157);
+  background-color: #9290C3;
 }
 
 .popupadd-actions button.save-btn{
-  background-color: rgb(98, 3, 117);
-}
-
-.popupadd-actions button.save-btn:hover{
-  background-color: rgb(138, 1, 165);
+  background-color: #1B1A55;
 }
