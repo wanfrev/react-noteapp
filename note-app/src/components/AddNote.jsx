@@ -6,7 +6,7 @@ export const AddNote = () => {
       <div className="popupadd-wrapper">
         <div className="popupadd-header">
           <h2 className="heading">Add Note</h2>
-          <div className="close-btn"><i className="fa-solid fa-xmark"></i></div>
+          <div className="close-btn" onClick = {() => setOpen(false)}><i className="fa-solid fa-xmark"></i></div>
         </div>
 
         <form className="popupadd-form">
