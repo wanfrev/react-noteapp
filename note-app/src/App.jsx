@@ -1,10 +1,14 @@
 import './assets/css/app.css'
 import { Nav } from './components/Nav'
 import { Card } from './components/Card'
+import { Details } from './components/details'
 import { AddNote } from './components/AddNote'
 
 function App() {
 
+  const [onCreateNote, setOnCreateNote] = useState(false);
+  const [onViewNote, setOnViewNote] = useState(false);
+  
   return (
     <>
       <div className='app'>
@@ -31,7 +35,8 @@ function App() {
             <Card />
             <Card />
           </div>
-          <AddNote />
+          {onCreateNote && <AddNote setOpen = {setOnCreateNote} />}
+          {onViewNote && <Details setView = {setOnViewNote} />}
         </div>
       </div>
     </>
