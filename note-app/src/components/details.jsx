@@ -1,6 +1,6 @@
 import ".assets/css/details.css";
 
-export const NoteDetails = () => {
+export const Details = () => {
     return <div className = "note-details">
         <div className = "details-wrapper">
             <div className = "details-back-btn">
