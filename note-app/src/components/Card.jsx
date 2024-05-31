@@ -1,14 +1,18 @@
 import '../assets/css/card.css'
 
-export const Card = () => {
+export const Card = ({setView}) => {
   return (
     <div className='note-card'>
       <div className="note-card-wrapper">
-        <h2 className="card-title">Lorem ipsum dolor, sit amet consectetur adipisicing elit</h2>
+        <h2 className="card-title" onClick = {() => setView(true)}>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit
+        </h2>
         <div className="card-body">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta nisi officiis dolore voluptatum ipsa, optio excepturi iste laborum illum cum aperiam esse, dolor dolorem officia unde? Fuga saepe sed eum?</p>
         </div>
-        <span className="card-details">read more</span>
+        <span className="card-details" onClick = {() => setView(true)}>
+          read more
+        </span>
         <div className="card-footer">
           <span className="card-timeline">{new Date().toDateString()}</span>
           <div className='card-actions'>
