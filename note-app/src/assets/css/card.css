@@ -19,6 +19,7 @@
   --webkit-box-orient: vertical;
   --webkit-line-clamp: var(--max-lines);
   word-wrap: break-word;
+  cursor: pointer;
 }
 
 .card-body{
