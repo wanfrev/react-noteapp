@@ -1,14 +1,41 @@
 import './assets/css/app.css'
 import { Nav } from './components/Nav'
 import { Card } from './components/Card'
-import { Details } from './components/details'
 import { AddNote } from './components/AddNote'
+import { Details } from './components/Details'
 
 function App() {
-
-  const [onCreateNote, setOnCreateNote] = useState(false);
+  const [onCreateNote, setOnCreateNote] = userState(false);
   const [onViewNote, setOnViewNote] = useState(false);
-  
+  const [notes, setNotes] = userState([]);
+  const [currentNote, setCurrentNote] = useState(null);
+
+  const handleCreateNote = (note) =>{
+    if(note){
+      const tempNotes = [...notes, note];
+      setNotes(tempNotes);
+    }
+  };
+
+  const handleOnUpdate = (note) => {
+    setCurrentNote(note);
+    setOnCreateNote(true);
+  }
+
+  const handleUpdatedate = (note) =>{
+    if(note){
+      const tempNotes = [...notes.map(n =>n.id === note.id? note: n)];
+      setNotes(tempNotes);
+    }
+  };
+
+  const handleDeleteNote = (noteId) => {
+    const tempNotes = [...notes.filter(n => n.id !== noteId)};
+    setNotes(tempNotes);
+  };
+
+//console.log(notes); prueba
+
   return (
     <>
       <div className='app'>
@@ -21,26 +48,23 @@ function App() {
             </button>
           </div>
           <div className="notes-wrapper">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+          {notes.map(note => (
+              <Card 
+                key = {note?.id} 
+                note = {note}
+                onUpdate = {handleOnUpdate}
+                setView = {setOnViewNote}
+              />
+          ))}
+
           </div>
-          {onCreateNote && <AddNote setOpen = {setOnCreateNote} />}
+          {onCreateNote && (
+            <AddNote 
+              note = {currentNote}
+              createNote = {handleCreateNote} 
+              updateNote = {handleUpdateNote} 
+              setOpen = {setOnCreateNote} 
+              />
+          )}
           {onViewNote && <Details setView = {setOnViewNote} />}
         </div>
-      </div>
-    </>
-  )
-}
-
-export default App
