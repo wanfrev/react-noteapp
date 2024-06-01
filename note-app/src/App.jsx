@@ -3,11 +3,12 @@ import { Nav } from './components/Nav'
 import { Card } from './components/Card'
 import { AddNote } from './components/AddNote'
 import { Details } from './components/Details'
+import { useEffect, useState } from 'react'
 
-function App() {
-  const [onCreateNote, setOnCreateNote] = userState(false);
+export function App() {
+  const [onCreateNote, setOnCreateNote] = useState(false);
   const [onViewNote, setOnViewNote] = useState(false);
-  const [notes, setNotes] = userState([]);
+  const [notes, setNotes] = useState([]);
   const [currentNote, setCurrentNote] = useState(null);
 
   useEffect(() =>{
@@ -15,7 +16,7 @@ function App() {
     tempNotes && setNotes(tempNotes);
   }, []);
   
-  const saveNotas = (items) =>{
+  const saveNotes = (items) =>{
     localStorage.setItem("notes", JSON.stringify(items));
   };
 
@@ -31,7 +32,7 @@ function App() {
     setOnCreateNote(true);
   }
 
-  const handleUpdatedate = (note) =>{
+  const handleUpdateNote = (note) =>{
     if(note){
       const tempNotes = [...notes.map((n) => (n.id === note.id? note: n))];
       setNotes(tempNotes);
