@@ -7,6 +7,7 @@ import { Login } from './components/Login';
 import { useEffect, useState } from 'react';
 
 export default function App() {
+  // Definición de estados
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [onCreateNote, setOnCreateNote] = useState(false);
   const [onViewNote, setOnViewNote] = useState(false);
@@ -15,15 +16,18 @@ export default function App() {
   const [search, setSearch] = useState("");
   let filteredNotes = [];
 
+  // Cargar notas desde localStorage al iniciar
   useEffect(() => {
     const tempNotes = JSON.parse(localStorage.getItem("notes"));
     tempNotes && setNotes(tempNotes);
   }, []);
 
+  // Guardar notas en localStorage
   const saveNotes = (items) => {
     localStorage.setItem("notes", JSON.stringify(items));
   };
 
+  // Crear nueva nota
   const handleCreateNote = (note) => {
     if (note) {
       const tempNotes = [...notes, note];
@@ -32,11 +36,13 @@ export default function App() {
     }
   };
 
+  // Preparar nota para actualización
   const handleOnUpdate = (note) => {
     setCurrentNote(note);
     setOnCreateNote(true);
   }
 
+  // Actualizar nota existente
   const handleUpdateNote = (note) => {
     if (note) {
       const tempNotes = notes.map((n) => (n.id === note.id ? note : n));
@@ -46,17 +52,20 @@ export default function App() {
     }
   };
 
+  // Eliminar nota
   const handleDeleteNote = (noteId) => {
     const tempNotes = notes.filter((n) => n.id !== noteId);
     setNotes(tempNotes);
     saveNotes(tempNotes);
   };
 
+  // Ver nota en detalle
   const handleOnPreview = (note) => {
     setCurrentNote(note);
     setOnViewNote(true);
   }
 
+  // Filtrar notas por búsqueda
   filteredNotes = search
     ? notes.filter(
         (n) =>
@@ -65,10 +74,12 @@ export default function App() {
       )
     : notes;
 
+  // Mostrar pantalla de login si no está autenticado
   if (!isAuthenticated) {
     return <Login onLogin={setIsAuthenticated} />;
   }
 
+  // Renderizar la aplicación principal
   return (
     <div className='app'>
       <Nav setOpen={setOnCreateNote} />

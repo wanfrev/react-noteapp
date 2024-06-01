@@ -4,20 +4,23 @@ import '../assets/css/addnote.css';
 import { v4 as getID } from "uuid";
 
 export const AddNote = ({ setOpen, note, createNote, updateNote }) => {
-
+  // Definición de estados para el título y la descripción de la nota
   const [title, setTitle] = useState(note ? note?.title : "");
   const [desc, setDesc] = useState(note ? note?.desc : "");
 
+  // Limpiar los campos de entrada
   const clearInputs = () => {
     setTitle("");
     setDesc("");
   }
 
+  // Manejo de la limpieza del formulario
   const handleClear = (event) => {
     event.preventDefault();
     clearInputs(); 
   }
   
+  // Manejo del submit del formulario
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -41,6 +44,7 @@ export const AddNote = ({ setOpen, note, createNote, updateNote }) => {
     setOpen(false);
   }
 
+  // Renderizar formulario de agregar/actualizar nota
   return (
     <div className='popupadd-note'>
       <div className="popupadd-wrapper">

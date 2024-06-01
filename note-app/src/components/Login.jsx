@@ -6,6 +6,7 @@ export const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // Manejo del submit del login
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username === "wanfrevlouis" && password === "123456") {
@@ -15,6 +16,7 @@ export const Login = ({ onLogin }) => {
     }
   };
 
+  // Renderizar formulario de login
   return (
     <div className="login-wrapper">
       <form className="login-form" onSubmit={handleSubmit}>
