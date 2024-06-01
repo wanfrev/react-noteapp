@@ -1,6 +1,6 @@
 import '../assets/css/card.css'
 
-export const Card = ({setView, note }) => {
+export const Card = ({setView, onUpdate, note }) => {
   return (
     <div className='note-card'>
       <div className="note-card-wrapper">
@@ -15,7 +15,7 @@ export const Card = ({setView, note }) => {
         <div className="card-footer">
           <span className="card-timeline">{note?.createdAt}</span>
           <div className='card-actions'>
-            <div className="action-item">
+            <div className="action-item" onClick = {() => onUpdate(note)}>
               <i className="fa-solid fa-pen-to-square edit"></i>
             </div>
             <div className="action-item">
