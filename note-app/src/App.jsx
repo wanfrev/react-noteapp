@@ -3,20 +3,21 @@ import { Nav } from './components/Nav'
 import { Card } from './components/Card'
 import { AddNote } from './components/AddNote'
 import { Details } from './components/Details'
-import { useEffect, useState } from 'react'
 
-export function App() {
-  const [onCreateNote, setOnCreateNote] = useState(false);
+function App() {
+  const [onCreateNote, setOnCreateNote] = userState(false);
   const [onViewNote, setOnViewNote] = useState(false);
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = userState([]);
   const [currentNote, setCurrentNote] = useState(null);
+  const [search, setSearch] = useState("");
+  let filteredNotes = [];
 
   useEffect(() =>{
     const tempNotes = JSON.parse(localStorage.getItem("notes"));
     tempNotes && setNotes(tempNotes);
   }, []);
   
-  const saveNotes = (items) =>{
+  const saveNotas = (items) =>{
     localStorage.setItem("notes", JSON.stringify(items));
   };
 
@@ -32,7 +33,7 @@ export function App() {
     setOnCreateNote(true);
   }
 
-  const handleUpdateNote = (note) =>{
+  const handleUpdatedate = (note) =>{
     if(note){
       const tempNotes = [...notes.map((n) => (n.id === note.id? note: n))];
       setNotes(tempNotes);
@@ -48,6 +49,23 @@ export function App() {
     
   };
 
+  const handleOnPreview = (note) => {
+    setCurrentNote(note);
+    setOnViewNote(true);
+  } 
+
+if(search){
+  filteredNotes = [
+    ...notes.filter(
+      (n) => 
+        n.title.toLowerCase().includes(search.toLocaleLowerCase()) || 
+        n.desc.toLowerCase().includes(search.toLocaleLowerCase())
+    ),
+  ];
+}else{
+  filteredNotes = [...notes];
+}
+  
 //console.log(notes); prueba
 
   return (
@@ -55,19 +73,23 @@ export function App() {
         <Nav setOpen = {setOnCreateNote} />
         <div className="wrapper container">
           <div className="search-wrapper">
-            <input type="text" className="search-input" placeholder='Search' />
+            <input 
+              onChange = {(e) => setSearch(e.target.value)} 
+              type="text" 
+              className="search-input" 
+              placeholder='Search' />
             <button className='search-btn'>
               <i className="fa-solid fa-magnifying-glass"></i>
             </button>
           </div>
           <div className="notes-wrapper">
-          {notes.map((note)  => (
+          {filteredNotes.map((note)  => (
               <Card 
                 key = {note?.id} 
                 note = {note}
                 onDelete = {handleDeleteNote}
                 onUpdate = {handleOnUpdate}
-                setView = {setOnViewNote}
+                onPreview = {handleOnPreview}
               />
           ))}
 
