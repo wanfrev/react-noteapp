@@ -16,7 +16,6 @@ export const Login = ({ onLogin }) => {
     }
   };
 
-  // Renderizar formulario de login
   return (
     <div className="login-wrapper">
       <form className="login-form" onSubmit={handleSubmit}>

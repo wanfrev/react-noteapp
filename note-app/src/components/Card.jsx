@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import '../assets/css/card.css';
 
 export const Card = ({ onPreview, onUpdate, onDelete, note }) => {
-  // Renderizar tarjeta de nota individual
   return (
     <div className='note-card'>
       <div className="note-card-wrapper">

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import '../assets/css/details.css';
 
 export const Details = ({ setView, note }) => {
-  // Renderizar detalles de la nota
   return (
     <div className="note-details">
       <div className="details-wrapper">

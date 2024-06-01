@@ -7,7 +7,6 @@ import { Login } from './components/Login';
 import { useEffect, useState } from 'react';
 
 export default function App() {
-  // Definición de estados
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [onCreateNote, setOnCreateNote] = useState(false);
   const [onViewNote, setOnViewNote] = useState(false);
@@ -16,7 +15,7 @@ export default function App() {
   const [search, setSearch] = useState("");
   let filteredNotes = [];
 
-  // Cargar notas desde localStorage al iniciar
+  // Cargar notas desde localStorage
   useEffect(() => {
     const tempNotes = JSON.parse(localStorage.getItem("notes"));
     tempNotes && setNotes(tempNotes);
@@ -27,7 +26,7 @@ export default function App() {
     localStorage.setItem("notes", JSON.stringify(items));
   };
 
-  // Crear nueva nota
+  // Handle para crear nueva nota
   const handleCreateNote = (note) => {
     if (note) {
       const tempNotes = [...notes, note];
@@ -36,13 +35,13 @@ export default function App() {
     }
   };
 
-  // Preparar nota para actualización
+  // Handle para la actualización de la nota
   const handleOnUpdate = (note) => {
     setCurrentNote(note);
     setOnCreateNote(true);
   }
 
-  // Actualizar nota existente
+  // Actualiza la nota existente
   const handleUpdateNote = (note) => {
     if (note) {
       const tempNotes = notes.map((n) => (n.id === note.id ? note : n));
@@ -59,7 +58,7 @@ export default function App() {
     saveNotes(tempNotes);
   };
 
-  // Ver nota en detalle
+  // Handle para ver la nota en detalle
   const handleOnPreview = (note) => {
     setCurrentNote(note);
     setOnViewNote(true);
@@ -74,12 +73,11 @@ export default function App() {
       )
     : notes;
 
-  // Mostrar pantalla de login si no está autenticado
+  // Mostrar componente de Login
   if (!isAuthenticated) {
     return <Login onLogin={setIsAuthenticated} />;
   }
 
-  // Renderizar la aplicación principal
   return (
     <div className='app'>
       <Nav setOpen={setOnCreateNote} />
