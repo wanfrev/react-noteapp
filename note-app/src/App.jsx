@@ -1,11 +1,13 @@
-import './assets/css/app.css'
-import { Nav } from './components/Nav'
-import { Card } from './components/Card'
-import { AddNote } from './components/AddNote'
-import { Details } from './components/Details'
-import { useEffect, useState } from 'react'
+import './assets/css/app.css';
+import { Nav } from './components/Nav';
+import { Card } from './components/Card';
+import { AddNote } from './components/AddNote';
+import { Details } from './components/Details';
+import { Login } from './components/Login';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [onCreateNote, setOnCreateNote] = useState(false);
   const [onViewNote, setOnViewNote] = useState(false);
   const [notes, setNotes] = useState([]);
@@ -17,7 +19,7 @@ export default function App() {
     const tempNotes = JSON.parse(localStorage.getItem("notes"));
     tempNotes && setNotes(tempNotes);
   }, []);
-  
+
   const saveNotes = (items) => {
     localStorage.setItem("notes", JSON.stringify(items));
   };
@@ -62,6 +64,10 @@ export default function App() {
           n.desc?.toLowerCase().includes(search.toLowerCase())
       )
     : notes;
+
+  if (!isAuthenticated) {
+    return <Login onLogin={setIsAuthenticated} />;
+  }
 
   return (
     <div className='app'>
