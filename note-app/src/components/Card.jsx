@@ -9,19 +9,20 @@ export const Card = ({setView, onUpdate, note }) => {
         </h2>
         <div className="card-body">
           <p>{note?.desc}</p>
-        <span className="card-details" onClick = {() => setView(true)}>
-          read more
-        </span>
-        <div className="card-footer">
-          <span className="card-timeline">{note?.createdAt}</span>
-          <div className='card-actions'>
-            <div className="action-item" onClick = {() => onUpdate(note)}>
-              <i className="fa-solid fa-pen-to-square edit"></i>
+          <span className="card-details" onClick = {() => setView(true)}>
+            read more
+          </span>
+            <div className="card-footer">
+              <span className="card-timeline">{note?.createdAt}</span>
+              <div className='card-actions'>
+                <div className="action-item" onClick = {() => onUpdate(note)}>
+                  <i className="fa-solid fa-pen-to-square edit"></i>
+                </div>
+                <div className="action-item">
+                  <i className="fa-solid fa-trash delete"></i>
+                </div>
+              </div>
             </div>
-            <div className="action-item">
-              <i className="fa-solid fa-trash delete"></i>
-            </div>
-          </div>
         </div>
       </div>
     </div>
