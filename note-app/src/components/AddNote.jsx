@@ -11,6 +11,11 @@ export const AddNote = ({ setOpen, note, createNote, updateNote}) => {
     setTitle("");
     setDesc("");
   }
+
+  const handleClear = (event) => {
+    event.preventDefault();
+    clearInputs(); 
+  }
   
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -59,8 +64,8 @@ export const AddNote = ({ setOpen, note, createNote, updateNote}) => {
             onChange = {(e) => setDesc(e.target.value)}
           ></textarea>
           <div className="popupadd-actions">
-            <button className="clear-btn">Clear</button>
-            <button type = "submit" className="save-btn">Save</button>
+            <button className="clear-btn" onClick = {handleClear}>Clear</button>
+            <button type = "submit" className="save-btn">Guardar</button>
           </div>
         </form>
       </div>
