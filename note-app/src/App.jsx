@@ -3,12 +3,11 @@ import { Nav } from './components/Nav'
 import { Card } from './components/Card'
 import { AddNote } from './components/AddNote'
 import { Details } from './components/Details'
-import { useState, useEffect } from 'react'
 
-export function App() {
-  const [onCreateNote, setOnCreateNote] = useState(false);
+function App() {
+  const [onCreateNote, setOnCreateNote] = userState(false);
   const [onViewNote, setOnViewNote] = useState(false);
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = userState([]);
   const [currentNote, setCurrentNote] = useState(null);
 
   useEffect(() =>{
@@ -16,7 +15,7 @@ export function App() {
     tempNotes && setNotes(tempNotes);
   }, []);
   
-  const saveNotes = (items) =>{
+  const saveNotas = (items) =>{
     localStorage.setItem("notes", JSON.stringify(items));
   };
 
@@ -32,7 +31,7 @@ export function App() {
     setOnCreateNote(true);
   }
 
-  const handleUpdateNote = (note) =>{
+  const handleUpdatedate = (note) =>{
     if(note){
       const tempNotes = [...notes.map((n) => (n.id === note.id? note: n))];
       setNotes(tempNotes);
@@ -51,9 +50,8 @@ export function App() {
 //console.log(notes); prueba
 
   return (
-    <>
       <div className='app'>
-        <Nav />
+        <Nav setOpen = {setOnCreateNote} />
         <div className="wrapper container">
           <div className="search-wrapper">
             <input type="text" className="search-input" placeholder='Search' />
@@ -62,7 +60,7 @@ export function App() {
             </button>
           </div>
           <div className="notes-wrapper">
-          {notes.map(note => (
+          {notes.map((note)  => (
               <Card 
                 key = {note?.id} 
                 note = {note}
@@ -89,6 +87,5 @@ export function App() {
             )}
         </div>
       </div>
-    </>
-  )
+    );
 }
