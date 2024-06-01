@@ -10,6 +10,15 @@ function App() {
   const [notes, setNotes] = userState([]);
   const [currentNote, setCurrentNote] = useState(null);
 
+  useEffect(() =>{
+    const tempNotes = JSON.parse(localStorage.getItem("notes"));
+    tempNotes && setNotes(tempNotes);
+  }, []);
+  
+  const saveNotas = (items) =>{
+    localStorage.setItem("notes", JSON.stringify(items));
+  };
+
   const handleCreateNote = (note) =>{
     if(note){
       const tempNotes = [...notes, note];
@@ -24,14 +33,18 @@ function App() {
 
   const handleUpdatedate = (note) =>{
     if(note){
-      const tempNotes = [...notes.map(n =>n.id === note.id? note: n)];
+      const tempNotes = [...notes.map((n) => (n.id === note.id? note: n))];
+      setNotes(tempNotes);
+      setCurrentNote(null);
       setNotes(tempNotes);
     }
   };
 
   const handleDeleteNote = (noteId) => {
-    const tempNotes = [...notes.filter(n => n.id !== noteId)};
+    const tempNotes = [...notes.filter((n) => n.id !== noteId)];
     setNotes(tempNotes);
+    saveNotes(tempNotes);
+    
   };
 
 //console.log(notes); prueba
@@ -52,6 +65,7 @@ function App() {
               <Card 
                 key = {note?.id} 
                 note = {note}
+                onDelete = {handleDeleteNote}
                 onUpdate = {handleOnUpdate}
                 setView = {setOnViewNote}
               />
@@ -66,5 +80,10 @@ function App() {
               setOpen = {setOnCreateNote} 
               />
           )}
-          {onViewNote && <Details setView = {setOnViewNote} />}
+          {onViewNote && (
+            <Details 
+              note = {currentNote}
+              setView = {setOnViewNote} 
+              />
+            )}
         </div>
