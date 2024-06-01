@@ -1,86 +1,79 @@
-import { useEffect, useState } from 'react';
-import './assets/css/app.css';
-
-import { Nav } from './components/Nav';
-import { Card } from './components/Card';
-import { AddNote } from './components/AddNote';
-import { Details } from './components/Details';
+import './assets/css/app.css'
+import { Nav } from './components/Nav'
+import { Card } from './components/Card'
+import { AddNote } from './components/AddNote'
+import { Details } from './components/Details'
+import { useEffect, useState } from 'react'
 
 export default function App() {
-  const [isCreatingNote, setIsCreatingNote] = useState(false);
-  const [isViewingNote, setIsViewingNote] = useState(false);
+  const [onCreateNote, setOnCreateNote] = useState(false);
+  const [onViewNote, setOnViewNote] = useState(false);
   const [notes, setNotes] = useState([]);
   const [currentNote, setCurrentNote] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
+  let filteredNotes = [];
 
-  // Cargar notas desde localStorage al montar el componente
   useEffect(() => {
-    const savedNotes = localStorage.getItem("notes");
-    if (savedNotes) {
-      try {
-        const parsedNotes = JSON.parse(savedNotes);
-        if (Array.isArray(parsedNotes)) {
-          setNotes(parsedNotes);
-          console.log("Notas cargadas desde localStorage:", parsedNotes);
-        }
-      } catch (e) {
-        console.error("Error al parsear notas desde localStorage:", e);
-      }
-    }
+    const tempNotes = JSON.parse(localStorage.getItem("notes"));
+    tempNotes && setNotes(tempNotes);
   }, []);
-
-  // Guardar notas en localStorage cuando cambian las notas
-  useEffect(() => {
-    console.log("Guardando notas en localStorage:", notes);
-    localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
-
-  const handleCreateNote = (note) => {
-    setNotes((prevNotes) => [...prevNotes, note]);
-    console.log("Nota creada:", note);
+  
+  const saveNotes = (items) => {
+    localStorage.setItem("notes", JSON.stringify(items));
   };
 
-  const handleUpdateNote = (updatedNote) => {
-    setNotes((prevNotes) =>
-      prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
-    );
-    setCurrentNote(null);
-    console.log("Nota actualizada:", updatedNote);
+  const handleCreateNote = (note) => {
+    if (note) {
+      const tempNotes = [...notes, note];
+      setNotes(tempNotes);
+      saveNotes(tempNotes);
+    }
+  };
+
+  const handleOnUpdate = (note) => {
+    setCurrentNote(note);
+    setOnCreateNote(true);
+  }
+
+  const handleUpdateNote = (note) => {
+    if (note) {
+      const tempNotes = notes.map((n) => (n.id === note.id ? note : n));
+      setNotes(tempNotes);
+      setCurrentNote(null);
+      saveNotes(tempNotes);
+    }
   };
 
   const handleDeleteNote = (noteId) => {
-    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
-    console.log("Nota eliminada:", noteId);
+    const tempNotes = notes.filter((n) => n.id !== noteId);
+    setNotes(tempNotes);
+    saveNotes(tempNotes);
   };
 
-  const handleViewNote = (note) => {
+  const handleOnPreview = (note) => {
     setCurrentNote(note);
-    setIsViewingNote(true);
-    console.log("Viendo nota:", note);
-  };
+    setOnViewNote(true);
+  }
 
-  const filteredNotes = searchTerm
+  filteredNotes = search
     ? notes.filter(
-        (note) =>
-          note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          note.desc.toLowerCase().includes(searchTerm.toLowerCase())
+        (n) =>
+          n.title?.toLowerCase().includes(search.toLowerCase()) ||
+          n.desc?.toLowerCase().includes(search.toLowerCase())
       )
     : notes;
 
-  console.log("Notas actuales:", notes);
-  console.log("Notas filtradas:", filteredNotes);
-
   return (
     <div className='app'>
-      <Nav onCreate={() => setIsCreatingNote(true)} />
+      <Nav setOpen={setOnCreateNote} />
       <div className="wrapper container">
         <div className="search-wrapper">
-          <input
-            type="text"
-            className="search-input"
-            placeholder='Search'
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+          <input 
+            onChange={(e) => setSearch(e.target.value)} 
+            type="text" 
+            className="search-input" 
+            placeholder='Search' 
+            value={search}
           />
           <button className='search-btn'>
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -88,30 +81,27 @@ export default function App() {
         </div>
         <div className="notes-wrapper">
           {filteredNotes.map((note) => (
-            <Card
-              key={note.id}
+            <Card 
+              key={note?.id} 
               note={note}
               onDelete={handleDeleteNote}
-              onUpdate={() => {
-                setCurrentNote(note);
-                setIsCreatingNote(true);
-              }}
-              onPreview={handleViewNote}
+              onUpdate={handleOnUpdate}
+              onPreview={handleOnPreview}
             />
           ))}
         </div>
-        {isCreatingNote && (
-          <AddNote
+        {onCreateNote && (
+          <AddNote 
             note={currentNote}
-            onCreate={handleCreateNote}
-            onUpdate={handleUpdateNote}
-            onClose={() => setIsCreatingNote(false)}
+            createNote={handleCreateNote} 
+            updateNote={handleUpdateNote} 
+            setOpen={setOnCreateNote} 
           />
         )}
-        {isViewingNote && (
-          <Details
+        {onViewNote && (
+          <Details 
             note={currentNote}
-            onClose={() => setIsViewingNote(false)}
+            setView={setOnViewNote} 
           />
         )}
       </div>

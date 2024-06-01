@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import '../assets/css/nav.css';
 
-export const Nav = ({ onCreate }) => {
+export const Nav = ({ setOpen }) => {
   return (
     <div className='navbar'>
       <div className="nav-wrapper container">
         <span className="logo">Notes</span>
         <div className="nav-options">
-          <div className="nav-icon" onClick={onCreate}>
+          <div className="nav-icon" onClick={() => setOpen(true)}>
             <i className="fa-solid fa-plus"></i>
           </div>
         </div>
@@ -17,5 +17,5 @@ export const Nav = ({ onCreate }) => {
 };
 
 Nav.propTypes = {
-  onCreate: PropTypes.func.isRequired,
+  setOpen: PropTypes.func.isRequired,
 };
