@@ -13,22 +13,11 @@
 
 .card-title{
   font-size: 1.2rem;
-  --max-lines: 2;
-  display: -webkit-box;
-  overflow: hidden;
-  --webkit-box-orient: vertical;
-  --webkit-line-clamp: var(--max-lines);
-  word-wrap: break-word;
   cursor: pointer;
 }
 
 .card-body{
   font-size: 0.5rem 0;
-  --max-lines: 2;
-  display: -webkit-box;
-  overflow: hidden;
-  --webkit-box-orient: vertical;
-  --webkit-line-clamp: var(--max-lines);
 }
 
 .card-details{

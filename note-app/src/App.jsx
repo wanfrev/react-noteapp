@@ -13,17 +13,31 @@ export default function App() {
   const [currentNote, setCurrentNote] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Cargar notas desde localStorage al montar el componente
   useEffect(() => {
-    const savedNotes = JSON.parse(localStorage.getItem("notes"));
-    if (savedNotes) setNotes(savedNotes);
+    const savedNotes = localStorage.getItem("notes");
+    if (savedNotes) {
+      try {
+        const parsedNotes = JSON.parse(savedNotes);
+        if (Array.isArray(parsedNotes)) {
+          setNotes(parsedNotes);
+          console.log("Notas cargadas desde localStorage:", parsedNotes);
+        }
+      } catch (e) {
+        console.error("Error al parsear notas desde localStorage:", e);
+      }
+    }
   }, []);
 
+  // Guardar notas en localStorage cuando cambian las notas
   useEffect(() => {
+    console.log("Guardando notas en localStorage:", notes);
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
   const handleCreateNote = (note) => {
     setNotes((prevNotes) => [...prevNotes, note]);
+    console.log("Nota creada:", note);
   };
 
   const handleUpdateNote = (updatedNote) => {
@@ -31,15 +45,18 @@ export default function App() {
       prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
     );
     setCurrentNote(null);
+    console.log("Nota actualizada:", updatedNote);
   };
 
   const handleDeleteNote = (noteId) => {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
+    console.log("Nota eliminada:", noteId);
   };
 
   const handleViewNote = (note) => {
     setCurrentNote(note);
     setIsViewingNote(true);
+    console.log("Viendo nota:", note);
   };
 
   const filteredNotes = searchTerm
@@ -49,6 +66,9 @@ export default function App() {
           note.desc.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : notes;
+
+  console.log("Notas actuales:", notes);
+  console.log("Notas filtradas:", filteredNotes);
 
   return (
     <div className='app'>
