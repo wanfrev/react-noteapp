@@ -1,15 +1,15 @@
 import '../assets/css/card.css'
 
-export const Card = ({setView, onUpdate, onDelete, note }) => {
+export const Card = ({ onPreview, setView, onUpdate, onDelete, note }) => {
   return (
     <div className='note-card'>
       <div className="note-card-wrapper">
-        <h2 className="card-title" onClick = {() => setView(true)}>
+        <h2 className="card-title" onClick = {() => onPreview(note)}>
           {note?.title}
         </h2>
         <div className="card-body">
           <p>{note?.desc}</p>
-        <span className="card-details" onClick = {() => setView(true)}>
+        <span className="card-details" onClick = {() => onPreview(note)}>
           read more
         </span>
         <div className="card-footer">
